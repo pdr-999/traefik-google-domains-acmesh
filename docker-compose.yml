@@ -1,0 +1,34 @@
+version: "3"
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./out/example.com_ecc/fullchain.cer:/certs/public.pem
+      - ./out/example.com_ecc/example.com.key:/certs/private.pem
+      - ./dynamic.yml:/etc/traefik/dynamic.yml
+      - ./traefik.yml:/etc/traefik/traefik.yml
+    networks:
+      - traefik-network
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    hostname: whoami
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.entrypoints: websecure
+      traefik.http.routers.whoami.rule: Host(`whoami.example.com`)
+      traefik.http.routers.whoami.tls: true
+    networks:
+      - traefik-network
+    depends_on:
+      - traefik
+
+networks:
+  traefik-network:
+    external: true
