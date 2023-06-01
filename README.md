@@ -10,11 +10,14 @@ docker run --rm  -itd  \
   neilpang/acme.sh daemon
 ```
 
-##### 2. Visit domains.google.com/registrar/example.com/security
+##### 2. Go to your google domain
+Visit domains.google.com/registrar/example.com/security
 
-##### 3. In the 'Advanced security features' section, expand 'Google Trust Services', then click on 'Get EAB Key', you will get EAB Key ID and EAB HMAC Key for account registration
+##### 3. Getting EAB Key ID and EAB HMAC Key
+In the 'Advanced security features' section, expand 'Google Trust Services', then click on 'Get EAB Key', you will get EAB Key ID and EAB HMAC Key for account registration
 
-##### 4. In the 'Advanced security features' section, scroll down to ACME DNS API and click on 'Create token', you will get an access token for issuing
+##### 4. Getting Access Token
+In the 'Advanced security features' section, scroll down to ACME DNS API and click on 'Create token', you will get an access token for issuing
 
 ##### 5. Register your account
 
@@ -32,9 +35,19 @@ docker exec -e GOOGLEDOMAINS_ACCESS_TOKEN="your_access_token" acme.sh --issue --
 
 ```
 
-##### 7. Modify docker-compose volume to point to your fullchain.cer & example.com.key
+##### 7. Modify docker compose
+Modify docker-compose volume to point to your fullchain.cer & example.com.key
 
-##### 8. Run docker compose and visit whoami.example.com
+##### 8. Run docker compose
+Run docker compose and visit whoami.example.com
+
+### Troubleshooting
+
+##### 1. 'example.com' is a directory
+Make sure certs folder is created by docker
+
+##### 2. Still no certificate
+Try certifying both wildcard (\*.example.com) and root domain
 
 ## References
 
